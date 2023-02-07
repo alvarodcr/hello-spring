@@ -12,8 +12,7 @@ pipeline {
                 script {
                     def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
                     echo "\033[32mPackage finished at: ${startTime}\033[0m"
-                }
-		junit 'test.xml'
+            	}
 
             }
         }
@@ -40,10 +39,10 @@ pipeline {
     }
     post {
         always {
-           	junit '**/target/*.xml'
+           	junit '**/target/surefire-reports/TEST-*.xml'
         }
         failure {
-           	echo "\033[33mFAILED\033[0m"
+           	echo "\033[20mFAILED\033[0m"
         }
     }
 }

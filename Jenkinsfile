@@ -3,7 +3,7 @@ pipeline {
   options { 
 	ansiColor("xterm")
 	timestamps() 
-}
+  }
   	
     stages {
 	stage('Packaging') {
@@ -43,7 +43,7 @@ pipeline {
            	junit '**/target/*.xml'
         }
         failure {
-           	subject: 'The Pipeline failed :('
+           	echo "\033[33mFAILED\033[0m"
         }
     }
 }

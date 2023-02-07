@@ -1,0 +1,7 @@
+version: "3"
+services:
+  spring:
+    build: .
+    image: ghcr.io/alvarodcr/hello-spring/hellospring:v1
+    ports:
+      - "80:80"

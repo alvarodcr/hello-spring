@@ -6,34 +6,36 @@ pipeline {
 }
   	
     stages {
-        stage('Compile') {
+	stage('Packaging') {
             steps {
-                sh "./mvnw compile -q"
-            	script {
-                    	def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
-                    	echo "\033[32Compile finished at: ${startTime}\033[0m"
-           	}
-	    }
-	 stage('Testing') {
-            steps {
-                sh "./mvnw test -q"
+                sh "./mvnw package -q"
                 script {
-                        def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
-                        echo "\033[32Test finished at: ${startTime}\033[0m"
-                }
-            }
-		
-	}
-        stage('Deploy') {
-            steps {
-                sh "./mvnw spring-boot:run -q"
-			 script {
                     def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
-                    echo "\033[32mRun finished at: ${startTime}\033[0m"
-        	        }            
+                    echo "\033[32mPackage finished at: ${startTime}\033[0m"
+                        }
 
             }
         }
+
+	stage('Build') {
+            steps {
+                sh "docker-compose build"
+            	script {
+                    	def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
+                    	echo "\033[32mBuild finished at: ${startTime}\033[0m"
+           	}
+	    }		
+	}
+        stage('Deploy') {
+            steps {
+                sh "docker-compose up -d"
+		script {
+                    	def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
+                    	echo "\033[32mUp finished at: ${startTime}\033[0m"
+       		}            
+
+            }
+       }
     }
 }
 

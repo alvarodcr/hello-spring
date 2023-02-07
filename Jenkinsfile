@@ -12,7 +12,8 @@ pipeline {
                 script {
                     def startTime = new Date().format("dd/MM/yyyy HH:mm:ss")
                     echo "\033[32mPackage finished at: ${startTime}\033[0m"
-                        }
+                }
+		junit 'test.xml'
 
             }
         }
@@ -36,6 +37,14 @@ pipeline {
 
             }
        }
+    }
+    post {
+        always {
+           	junit '**/target/*.xml'
+        }
+        failure {
+           	mail to: varo_ccx@hotmail.com, subject: 'The Pipeline failed :('
+        }
     }
 }
 
